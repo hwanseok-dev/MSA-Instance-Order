@@ -22,7 +22,6 @@ public class OrderController {
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
     public OrderGroup create(@RequestBody OrderGroup request){
-
         return orderGroupService.create(request);
     }
 

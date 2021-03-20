@@ -1,6 +1,7 @@
 package me.hwanseok.simplemsaorder.model.entity;
 
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 import lombok.experimental.Accessors;
@@ -31,7 +32,7 @@ public class LineItem implements Serializable {
      */
     private String name;
 
-//    @JsonBackReference
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "order_group_id")
     private OrderGroup orderGroup;

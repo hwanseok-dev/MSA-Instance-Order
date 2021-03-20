@@ -18,7 +18,6 @@ public class OrderGroupService {
     }
 
     public OrderGroup create(OrderGroup request){
-        request.getLineItems().forEach(lineItem -> lineItem.setOrderGroup(request));
         orderGroupRepository.save(request);
         return null;
     }

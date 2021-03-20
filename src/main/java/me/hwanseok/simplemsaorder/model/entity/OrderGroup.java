@@ -35,7 +35,7 @@ public class OrderGroup {
      */
     private String name;
 
-//    @JsonManagedReference
+    @JsonManagedReference
     @OneToMany(mappedBy = "orderGroup", cascade = CascadeType.ALL)
     private List<LineItem> lineItems;
 
