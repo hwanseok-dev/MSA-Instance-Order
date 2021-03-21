@@ -21,7 +21,7 @@ public class ProductService {
     public Product create(Product request){
         return productRepository.save(
                 Product.builder()
-                        .name(request.getName())
+                        .description(request.getDescription())
                         .build());
     }
 
@@ -29,7 +29,7 @@ public class ProductService {
         Optional<Product> prev = productRepository.findById(request.getId());
         if(prev.isPresent()){
             Product product = prev.get();
-            product.setName(request.getName());
+            product.setDescription(request.getDescription());
             return productRepository.save(product);
         }else{
             return null;

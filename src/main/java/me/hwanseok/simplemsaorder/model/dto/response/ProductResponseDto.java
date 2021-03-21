@@ -1,4 +1,4 @@
-package me.hwanseok.simplemsaorder.model.entity;
+package me.hwanseok.simplemsaorder.model.dto.response;
 
 
 import io.swagger.annotations.ApiModel;
@@ -15,21 +15,18 @@ import javax.persistence.Id;
 import java.io.Serializable;
 
 /**
- * 상품
+ * 상품 응답 DTO
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Builder
 @Accessors(chain = true)
 @ApiModel
-public class Product implements Serializable {
+public class ProductResponseDto implements Serializable {
     /**
      * 개별 주문 번호
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     /**
      * 상품 설명

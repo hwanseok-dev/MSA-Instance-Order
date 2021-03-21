@@ -1,4 +1,4 @@
-package me.hwanseok.simplemsaorder.model.entity;
+package me.hwanseok.simplemsaorder.model.dto.response;
 
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
@@ -10,22 +10,19 @@ import javax.persistence.*;
 import java.io.Serializable;
 
 /**
- * 상품
+ * 개별 주문
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Entity
 @Builder
 @Accessors(chain = true)
 @ApiModel
 @ToString(exclude = "orderGroup")
-public class LineItem implements Serializable {
+public class LineItemResponseDto implements Serializable {
     /**
      * 개별 주문 번호
      */
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     /**
      * 개별 주문 설명
@@ -35,11 +32,4 @@ public class LineItem implements Serializable {
      * 상품 번호
      */
     private Long productId;
-    /**
-     * 주문 그룹
-     */
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "order_group_id")
-    private OrderGroup orderGroup;
 }

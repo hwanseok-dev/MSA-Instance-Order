@@ -32,10 +32,10 @@ class OrderGroupRepositoryTest {
         Long productId = 481L;
         for(int i=0; i<10; i++){
             OrderGroup orderGroup = OrderGroup.builder()
-                    .name("orderName"+i)
+                    .description("orderDescription"+i)
                     .lineItems(new ArrayList<>())
                     .build();
-            orderGroup.addLineItem(LineItem.builder().name("LineItemName"+i).productId(productId).build());
+            orderGroup.addLineItem(LineItem.builder().description("LineItemDescription"+i).productId(productId).build());
             orderGroupRepository.save(orderGroup);
         }
     }
@@ -54,7 +54,7 @@ class OrderGroupRepositoryTest {
         Optional<OrderGroup> product = orderGroupRepository.findById(id);
         System.out.println(product);
         product.ifPresent(selectedProduct -> {
-            selectedProduct.setName("changedName");
+            selectedProduct.setDescription("changedDescription");
             orderGroupRepository.save(selectedProduct);
         });
     }
