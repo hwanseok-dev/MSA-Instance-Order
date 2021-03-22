@@ -3,18 +3,21 @@ package me.hwanseok.simplemsaorder.controller;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.RequiredArgsConstructor;
+import me.hwanseok.simplemsaorder.model.dto.common.ResponseDto;
 import me.hwanseok.simplemsaorder.model.dto.request.OrderGroupRequestDto;
 import me.hwanseok.simplemsaorder.model.dto.response.OrderGroupResponseDto;
 import me.hwanseok.simplemsaorder.model.entity.OrderGroup;
 import me.hwanseok.simplemsaorder.service.OrderGroupService;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/order")
+@RequestMapping(value = "/api/order", produces = MediaType.APPLICATION_JSON_VALUE)
 public class OrderController {
 
     private final OrderGroupService orderGroupService;
@@ -26,7 +29,7 @@ public class OrderController {
      */
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public OrderGroupResponseDto create(@RequestBody OrderGroupRequestDto request){
+    public ResponseEntity<OrderGroupResponseDto> create(@RequestBody OrderGroupRequestDto request){
         return orderGroupService.create(request);
     }
 
@@ -35,7 +38,7 @@ public class OrderController {
      * TODO return type ResponseDto
      */
     @GetMapping("/{id}")
-    public OrderGroupResponseDto findById(@PathVariable("id") Long id){
+    public ResponseEntity<OrderGroupResponseDto> findById(@PathVariable("id") Long id){
         return orderGroupService.findById(id);
     }
 
@@ -45,7 +48,7 @@ public class OrderController {
      */
     @PutMapping
     @ResponseStatus(HttpStatus.OK)
-    public OrderGroupResponseDto update(@RequestBody OrderGroupRequestDto request){
+    public ResponseEntity<OrderGroupResponseDto> update(@RequestBody OrderGroupRequestDto request){
         System.out.println("update request"+request);
         return orderGroupService.update(request);
     }
@@ -55,7 +58,7 @@ public class OrderController {
      * TODO return type ResponseDto
      */
     @DeleteMapping("/{id}")
-    public HttpStatus delete(@PathVariable("id") Long id){
+    public ResponseEntity<ResponseDto> delete(@PathVariable("id") Long id){
         return orderGroupService.delete(id);
     }
 }

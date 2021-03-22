@@ -19,7 +19,7 @@ import java.io.Serializable;
 @Accessors(chain = true)
 @ApiModel
 @ToString(exclude = "orderGroup")
-public class LineItemResponseDto implements Serializable {
+public class LineItemResponseDto {
     /**
      * 개별 주문 번호
      */

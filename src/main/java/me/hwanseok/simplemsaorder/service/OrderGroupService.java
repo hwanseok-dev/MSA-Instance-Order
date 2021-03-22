@@ -1,18 +1,17 @@
 package me.hwanseok.simplemsaorder.service;
 
 import lombok.RequiredArgsConstructor;
+import me.hwanseok.simplemsaorder.exception.OrderGroupNotFoundException;
+import me.hwanseok.simplemsaorder.model.dto.common.ErrorDto;
+import me.hwanseok.simplemsaorder.model.dto.common.ResponseDto;
 import me.hwanseok.simplemsaorder.model.dto.request.OrderGroupRequestDto;
 import me.hwanseok.simplemsaorder.model.dto.response.OrderGroupResponseDto;
-import me.hwanseok.simplemsaorder.model.entity.LineItem;
 import me.hwanseok.simplemsaorder.model.entity.OrderGroup;
 import me.hwanseok.simplemsaorder.repository.OrderGroupRepository;
-import org.springframework.beans.BeanUtils;
-import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -22,53 +21,49 @@ public class OrderGroupService {
     /**
      * OrderGroup 조회
      */
-    public OrderGroupResponseDto findById(Long id) {
-        // orderGroup 조회
+    public ResponseEntity<OrderGroupResponseDto> findById(Long id) {
         Optional<OrderGroup> option = orderGroupRepository.findById(id);
-        // 존재하면 ResponseDto로 변환, 없으면 null
-        return option.map(OrderGroup::entity2ResponseDto).orElse(null);
+        return option.map(orderGroup -> ResponseEntity
+                .ok()
+                .body(orderGroup.entity2ResponseDto())
+        ).orElseThrow(OrderGroupNotFoundException::new);
     }
 
     /**
      * OrderGroup 생성
      */
-    public OrderGroupResponseDto create(OrderGroupRequestDto request) {
-        // requestDto -> entity 변환
-        OrderGroup orderGroup = request.requestDto2Entity();
-        // entitiy 저장
-        OrderGroup newOrderGroup = orderGroupRepository.save(orderGroup);
-        // entity -> requestDto
-        return newOrderGroup.entity2ResponseDto();
+    public ResponseEntity<OrderGroupResponseDto> create(OrderGroupRequestDto request) {
+        OrderGroup newOrderGroup = orderGroupRepository.save(request.requestDto2Entity());
+        return ResponseEntity
+                .ok()
+                .body(newOrderGroup.entity2ResponseDto());
     }
 
     /**
      * OrderGroup 수정
      */
-    public OrderGroupResponseDto update(OrderGroupRequestDto request) {
-        // orderGroup 조회
+    public ResponseEntity<OrderGroupResponseDto> update(OrderGroupRequestDto request) {
         Optional<OrderGroup> optional = orderGroupRepository.findById(request.getId());
-        // 존재하면 Update
         if (optional.isPresent()) {
-            // requestDto -> entity 변환
-            OrderGroup orderGroup = request.requestDto2Entity();
-            orderGroupRepository.save(orderGroup);
-            return findById(request.getId());
+            OrderGroup updateOrderGroup = orderGroupRepository.save(request.requestDto2Entity());
+            return ResponseEntity.ok().body(updateOrderGroup.entity2ResponseDto());
         } else {
-            // 없으면 생성
-            return create(request);
+            throw new OrderGroupNotFoundException();
         }
     }
 
     /**
      * OrderGroup 삭제
      */
-    public HttpStatus delete(Long id) {
+    public ResponseEntity<ResponseDto> delete(Long id) {
         Optional<OrderGroup> option = orderGroupRepository.findById(id);
         if (option.isPresent()) {
             orderGroupRepository.deleteById(id);
-            return HttpStatus.OK;
+            return ResponseEntity.ok().body(ResponseDto.builder()
+                    .msg("Successfully deleted orderGroup")
+                    .build());
         } else {
-            return HttpStatus.BAD_REQUEST;
+            throw new OrderGroupNotFoundException();
         }
     }
 

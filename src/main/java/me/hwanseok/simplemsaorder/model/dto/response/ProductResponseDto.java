@@ -23,7 +23,7 @@ import java.io.Serializable;
 @Builder
 @Accessors(chain = true)
 @ApiModel
-public class ProductResponseDto implements Serializable {
+public class ProductResponseDto {
     /**
      * 개별 주문 번호
      */

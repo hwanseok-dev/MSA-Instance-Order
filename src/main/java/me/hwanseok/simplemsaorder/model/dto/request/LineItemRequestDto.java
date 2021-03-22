@@ -15,7 +15,7 @@ import java.io.Serializable;
 @Data
 @Accessors(chain = true)
 @ApiModel
-public class LineItemRequestDto implements Serializable {
+public class LineItemRequestDto {
     /**
      * 개별 주문 번호
      */
