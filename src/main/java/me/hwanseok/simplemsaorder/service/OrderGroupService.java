@@ -96,24 +96,20 @@ public class OrderGroupService {
      */
     public ResponseEntity<ProductResponseDto> getProductById(String productId) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(productApiUrl)
-                .path("/{productId}");
-//                .queryParam("ids", productId);
-//        HttpHeaders httpHeaders = new HttpHeaders();
-//        httpHeaders.set(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE); // 원하는 데이터 형식
-//        httpHeaders.set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE); // 요청과 응답의 데이터 형식
-//
-//        HttpEntity<?> httpEntity = new HttpEntity<>(httpHeaders);
+//                .path("/{productId}");
+                .queryParam("ids", productId);
         System.out.println(builder.build(productId).toString());
-        ResponseEntity<ProductResponseDto> ret = restTemplate.getForEntity(
+        ResponseEntity<ProductResponseListDto> ret = restTemplate.getForEntity(
                 builder.build(productId).toString(),
-                ProductResponseDto.class
+                ProductResponseListDto.class
         );
 //        ResponseEntity<String> ret = restTemplate.getForEntity(
 //                builder.build(productId).toString(),
 //                String.class
 //        );
-        System.out.println(ret.getBody().getDescription());
         System.out.println(ret);
+        List<ProductResponseDto> listDto = ret.getBody().getProductResponseDtoList();
+        System.out.println(listDto);
         throw new OrderGroupNotFoundException();
     }
 
