@@ -55,5 +55,4 @@ public class OrderGroupRequestDto {
         return orderGroup;
     }
 
-
 }

@@ -23,9 +23,9 @@ import java.io.Serializable;
 @Builder
 @Accessors(chain = true)
 @ApiModel
-public class ProductResponseDto {
+public class ProductResponseDto implements Serializable {
     /**
-     * 개별 주문 번호
+     * 상품 번호
      */
     private Long id;
     /**
