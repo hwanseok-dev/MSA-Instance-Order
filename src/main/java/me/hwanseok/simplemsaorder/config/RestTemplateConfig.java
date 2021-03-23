@@ -1,5 +1,6 @@
 package me.hwanseok.simplemsaorder.config;
 
+import me.hwanseok.simplemsaorder.component.RestTemplateResponseErrorHandler;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,6 +23,7 @@ public class RestTemplateConfig {
                 .setConnectTimeout(Duration.ofMillis(5000)) // connection-timeout
                 .setReadTimeout(Duration.ofMillis(5000)) // read-timeout
                 .additionalMessageConverters(new StringHttpMessageConverter(StandardCharsets.UTF_8))
+                .errorHandler(new RestTemplateResponseErrorHandler())
                 .build();
     }
 }

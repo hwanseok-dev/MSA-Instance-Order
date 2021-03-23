@@ -2,6 +2,7 @@ package me.hwanseok.simplemsaorder.service;
 
 import lombok.RequiredArgsConstructor;
 import me.hwanseok.simplemsaorder.exception.OrderGroupNotFoundException;
+import me.hwanseok.simplemsaorder.exception.ProductNotFoundException;
 import me.hwanseok.simplemsaorder.model.dto.common.ResponseDto;
 import me.hwanseok.simplemsaorder.model.dto.request.LineItemRequestDto;
 import me.hwanseok.simplemsaorder.model.dto.request.OrderGroupRequestDto;
@@ -12,13 +13,11 @@ import me.hwanseok.simplemsaorder.model.entity.OrderGroup;
 import me.hwanseok.simplemsaorder.repository.OrderGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -53,13 +52,14 @@ public class OrderGroupService {
                 .map(String::valueOf)
                 .collect(Collectors.joining(","));
         System.out.println(productIds);
-        ProductResponseDto responseDto = getProductById(productIds).getBody();
-        System.out.println(responseDto);
-        throw new OrderGroupNotFoundException();
-//        OrderGroup newOrderGroup = orderGroupRepository.save(request.requestDto2Entity());
-//        return ResponseEntity
-//                .ok()
-//                .body(newOrderGroup.entity2ResponseDto());
+        ProductResponseListDto listDto = getProductByIds(productIds);
+        if(listDto.getProductResponseDtoList().size() != request.getLineItemRequestDtos().size()){
+            throw new ProductNotFoundException();
+        }
+        OrderGroup newOrderGroup = orderGroupRepository.save(request.requestDto2Entity());
+        return ResponseEntity
+                .ok()
+                .body(newOrderGroup.entity2ResponseDto());
     }
 
     /**
@@ -91,26 +91,18 @@ public class OrderGroupService {
     }
 
     /**
-     * @param productId @PathVariable로 전달될 productId
+     * @param productIds @PathVariable로 전달될 productId
      * @return
      */
-    public ResponseEntity<ProductResponseDto> getProductById(String productId) {
+    public ProductResponseListDto getProductByIds(String productIds) {
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(productApiUrl)
-//                .path("/{productId}");
-                .queryParam("ids", productId);
-        System.out.println(builder.build(productId).toString());
+                .queryParam("ids", productIds);
+        System.out.println(builder.build(productIds).toString());
         ResponseEntity<ProductResponseListDto> ret = restTemplate.getForEntity(
-                builder.build(productId).toString(),
+                builder.build(productIds).toString(),
                 ProductResponseListDto.class
         );
-//        ResponseEntity<String> ret = restTemplate.getForEntity(
-//                builder.build(productId).toString(),
-//                String.class
-//        );
-        System.out.println(ret);
-        List<ProductResponseDto> listDto = ret.getBody().getProductResponseDtoList();
-        System.out.println(listDto);
-        throw new OrderGroupNotFoundException();
+        return ret.getBody();
     }
 
 }
