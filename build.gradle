@@ -19,6 +19,9 @@ repositories {
 }
 
 dependencies {
+    // https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-netflix-ribbon
+//    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-netflix-ribbon', version: '2.2.7.RELEASE'
+
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client:2.1.2.RELEASE")
     // https://mvnrepository.com/artifact/io.springfox/springfox-swagger2
     implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
