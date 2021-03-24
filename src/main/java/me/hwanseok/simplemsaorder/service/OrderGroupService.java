@@ -13,11 +13,15 @@ import me.hwanseok.simplemsaorder.model.entity.OrderGroup;
 import me.hwanseok.simplemsaorder.repository.OrderGroupRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.cloud.client.ServiceInstance;
+import org.springframework.cloud.client.discovery.DiscoveryClient;
 import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -31,6 +35,9 @@ public class OrderGroupService {
 
     @Autowired
     private RestTemplate restTemplate;
+
+    @Autowired
+    private DiscoveryClient discoveryClient;
 
     /**
      * OrderGroup 조회
@@ -95,6 +102,14 @@ public class OrderGroupService {
      * @return
      */
     public ProductResponseListDto getProductByIds(String productIds) {
+        // DiscoveryClient Test
+        List<ServiceInstance> instanceList = discoveryClient.getInstances("simple-msa-order");
+        System.out.println("DiscoveryClient URI");
+        instanceList.forEach(instance ->{
+            System.out.println(instance.getUri().toString());
+        });
+q
+
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(productApiUrl)
                 .queryParam("ids", productIds);
         System.out.println(builder.build(productIds).toString());
