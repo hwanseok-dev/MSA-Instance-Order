@@ -37,12 +37,6 @@ public class OrderGroupService {
     @Autowired
     private RestTemplate restTemplate;
 
-//    @Autowired
-//    private DiscoveryClient discoveryClient;
-
-    @Autowired
-    private LoadBalancerClient loadBalancerClient;
-
     /**
      * OrderGroup 조회
      */
@@ -106,20 +100,8 @@ public class OrderGroupService {
      * @return
      */
     public ProductResponseListDto getProductByIds(String productIds) {
-        // DiscoveryClient Test
-//        List<ServiceInstance> instanceList = discoveryClient.getInstances("simple-msa-order");
-//        System.out.println("DiscoveryClient URI");
-//        instanceList.forEach(instance ->{
-//            System.out.println(instance.getUri().toString());
-//        });
-
-        ServiceInstance serviceInstance = loadBalancerClient.choose("simple-msa-product");
-        System.out.println(serviceInstance.getUri().toString());
-
-
-//        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(productApiUrl).queryParam("ids", productIds);
         UriComponentsBuilder builder = UriComponentsBuilder
-                .fromUriString(serviceInstance.getUri().toString())
+                .fromUriString("http://simple-msa-product")
                 .path("/api/product")
                 .queryParam("ids", productIds);
         System.out.println(builder.build(productIds).toString());

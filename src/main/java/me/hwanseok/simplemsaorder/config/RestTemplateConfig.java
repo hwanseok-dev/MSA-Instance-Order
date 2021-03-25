@@ -18,6 +18,7 @@ import java.time.Duration;
 public class RestTemplateConfig {
 
     @Bean
+    @LoadBalanced
     public RestTemplate restTemplate(RestTemplateBuilder restTemplateBuilder) {
         return restTemplateBuilder
                 .requestFactory(() -> new BufferingClientHttpRequestFactory(new SimpleClientHttpRequestFactory()))
