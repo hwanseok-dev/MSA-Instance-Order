@@ -92,6 +92,32 @@
 1. Eureka Ribbon 이해
 1. IntelliJ Idea Application 여러 개 띄우기
 
+# 2주차 리뷰
+
+1. 먼저 쉽게 작성하자.
+    > 1차선 먼저 뚫고 점점 넓히자. 처음부터 4차선 8차선 힘들다.
+1. Product Server의 Response가 String으로는 받아지지만, Header\<ProductApiResponse\>로 받아지지 않는 문제
+    - List\<ProductApiResponse\>로 받는 부분을 ResponseEntity에서 Header와 Body를 나누어서 생각해보자.
+    - 우선 ProductApiResponse를 먼저 받도록 한 뒤, 나중에 추가적으로 확장하자.
+    - restTemplate의 동작 과정에 대해서 더 파악하자.
+    > Entity name이 Order로 되어있어 문법이 모호해지는 문제 해결
+    > restTemplate의 내부 동작 과정 이해
+1. interceptor를 적용하는 지점에 대해서 파악하기
+    - interceptor와 auditor의 차이점에 대해서 파악하기
+    - interceptor는 공통관심사에 대해서 횡단으로 처리하는 범위
+    > LoadBalanced interceptor를 통해 restTemplate이 intercept 됨을 파악
+    > [WIP] Ribbon interceptor의 join point 확인
+1. stream의 경우 single/multi core에서 어떻게 동작하는지 파악하기   
+    >
+1. transactional에 대해서 파악하기
+    > transaction 내에서 영속성 콘텍스트가 동작하는 과정 파악
+1. MSA-Instance-Product GET에서 POST로 변경하기
+    > [WIP] 미적용
+1. Test 코드 
+    - @Before를 통해서 공통 기능을 실행 전에 수행한다.
+    - MSA-Instance-Product에 직접 요청을 날리면 의미가 없다. MockServer를 사용하자.
+    > [WIP] 미적용
+
 # 학습 내용
 
 ## RestTemplate 동작 과정
