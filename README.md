@@ -381,7 +381,7 @@
 
 ### Eureka + Ribbon
 
-Ribbon이 생성될 때 Eureka가 있다면, Eureka를 구성하는 7가지의 Bean 중에서 두 가지가 변경된다.
+- Ribbon이 생성될 때 Eureka가 있다면, Eureka를 구성하는 7가지의 Bean 중에서 두 가지가 변경된다.
     - ServerList\<Server\>
         - 기본 : ConfigurationBasedServerList (application.yaml에 설정된 목록)
         - 변경 : DiscoveryEnableNIWSServerList(eureka에서 서버 목록을 가져옴)
